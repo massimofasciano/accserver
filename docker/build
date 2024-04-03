@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DATECMD=date
+DATE=`${DATECMD} +%Y%m%d-%H%M%S`
+
+docker build -t mafalitic/ubuntu-wine:latest -t mafalitic/ubuntu-wine:${DATE} --no-cache --pull ./ubuntu-wine
+docker build -t mafalitic/accserver:latest -t mafalitic/accserver:${DATE} --no-cache ./accserver
+
+docker push -a mafalitic/ubuntu-wine
+docker push -a mafalitic/accserver
+
