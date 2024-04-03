@@ -1,10 +1,14 @@
-mkdir -p local local/cfg local/log local/results
+#!/bin/bash
+
+BASEDIR=/root/accserver
+
+mkdir -p ${BASEDIR}/local/{cfg,log,results}
 
 docker run --name accserver --rm --detach \
-  -v /root/accserver/app/server:/opt/server \
-  -v /root/accserver/local/cfg:/opt/server/cfg \
-  -v /root/accserver/local/log:/opt/server/log \
-  -v /root/accserver/local/results:/opt/server/results \
+  -v ${BASEDIR}/app/server:/opt/server \
+  -v ${BASEDIR}/local/cfg:/opt/server/cfg \
+  -v ${BASEDIR}/local/log:/opt/server/log \
+  -v ${BASEDIR}/local/results:/opt/server/results \
   -p 9232:9232/tcp \
   -p 9231:9231/udp \
   mafalitic/accserver:latest
