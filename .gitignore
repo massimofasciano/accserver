@@ -1,0 +1,4 @@
+/app/*
+/local/cfg/*
+/local/log/*
+/local/results/*
