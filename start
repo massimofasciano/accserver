@@ -1,14 +1,28 @@
 #!/bin/bash
 
 BASEDIR=/root/accserver
+LOCAL=local
+DESTDIR=/opt/server
 
-mkdir -p ${BASEDIR}/local/{cfg,log,results}
+CFGMNT=""
+if [ -d ${BASEDIR}/${LOCAL}/cfg ]; then
+    CFGMNT="-v ${BASEDIR}/${LOCAL}/cfg:${DESTDIR}/cfg"
+fi
+
+LOGMNT=""
+if [ -d ${BASEDIR}/${LOCAL}/log ]; then
+    LOGMNT="-v ${BASEDIR}/${LOCAL}/log:${DESTDIR}/log"
+fi
+
+RESMNT=""
+if [ -d ${BASEDIR}/${LOCAL}/results ]; then
+    RESMNT="-v ${BASEDIR}/${LOCAL}/results:${DESTDIR}/results"
+fi
 
 docker run --name accserver --rm --detach \
-  -v ${BASEDIR}/app/server:/opt/server \
-  -v ${BASEDIR}/local/cfg:/opt/server/cfg \
-  -v ${BASEDIR}/local/log:/opt/server/log \
-  -v ${BASEDIR}/local/results:/opt/server/results \
+  -v ${BASEDIR}/app/server:${DESTDIR} \
+  ${CFGMNT} ${LOGMNT} ${RESMNT} \
   -p 9232:9232/tcp \
   -p 9231:9231/udp \
   mafalitic/accserver:latest
+
